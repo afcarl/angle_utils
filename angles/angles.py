@@ -2,6 +2,7 @@ from __future__ import division
 
 
 import math
+import itertools
 
 def normalize(theta, start=0):
     """ normalize(theta, start)
@@ -41,14 +42,14 @@ def subangles(alpha, beta):
     return delta
 
 
-def average_angle(angles):
+def average_angles(angles):
     """ average_angle(angles)
     Compute the average of a number of angles
     using circular statistics mean
 
     Parameters
     --------------
-    angles : iterable container of angles
+    angles : list container of angles
 
     Returns
     ----------
@@ -58,11 +59,41 @@ def average_angle(angles):
     if len(angles) == 0:
         return 0.0
 
-    num, den = 0.0, 0.0
-    for theta in angles:
-        num += math.sin(theta)
-        den += math.cos(theta)
+    num = sum([math.sin(theta) for theta in angles])
+    den = sum([math.cos(theta) for theta in angles])
 
     theta_bar = math.atan2(num/len(angles), den/len(angles))
 
     return theta_bar
+
+
+def weighted_average_angles(angles, weights):
+    """ weighted_average_angle(angles)
+    Compute the weighted average of a number of angles
+    using circular statistics mean
+
+    Parameters
+    --------------
+    angles : list container of angles
+    weights : list container of weights
+
+    Returns
+    ----------
+    theta_bar : average angle
+    """
+    if len(angles) == 0:
+        return 0.0
+
+    if len(angles) != len(weights):
+        raise ValueError('Input lists {0} and {1} have different lengths'.format(angles, weights))
+
+    num = sum([weight * math.sin(theta) for theta, weight in itertools.izip(angles, weights)])
+    den = sum([weight * math.cos(theta) for theta, weight in itertools.izip(angles, weights)])
+
+    theta_bar = math.atan2(num/len(angles), den/len(angles))
+
+    return theta_bar
+
+
+def map_to(angle, amin, amax):
+    pass
