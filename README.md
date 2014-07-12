@@ -1,7 +1,7 @@
 angle_utils
 ===========
 
-Pythonic angles common operations. Angles are on a manifold and hence typical simple arithmetic operations can horribly go wrong if care if not taken. This is a start of a collection of simple functions to handling these.
+Pure python operations common to angles. Angles exist on a manifold and hence typical simple arithmetic operations (like averaging) can horribly go wrong if care if not taken. This is a start of a collection of simple functions to handling these.
 
 
 ### Features
